@@ -565,7 +565,7 @@
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If toggled, lower plot is clickable and extrema can be found&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
-             <string>Enable peak chosing</string>
+             <string>Enable peak choosing</string>
             </property>
             <property name="iconSize">
              <size>
