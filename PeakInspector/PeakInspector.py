@@ -17,6 +17,10 @@ from matplotlib.backends.backend_qt4agg import (
 
 from matplotlib import style
 
+
+#TODO secondary tab in GUI with output options
+#TODO multiple output formats and unified format of code for output production
+
 # Initialise the final dataframe that will contain analysed data to export to Excel
 multipleDataSets = pd.DataFrame()
 
@@ -274,14 +278,14 @@ def on_motion(event):
                     if 'leftBorder' in globals():
                         leftBorderNew = [artist for artist in pickable_artists_plb_AX3 if artist.contains(event)[0]] # return the artist of the left black dot...
                         if leftBorderNew==leftBorder:
-                            leftBorderXdata = leftBorder[0].get_xdata() # initial position of the left dot                        
+                            leftBorderXdata = leftBorder[0].get_xdata() # initial position of the left dot
                         else:
                             leftBorder=leftBorderNew
-                            leftBorderXdata = leftBorder[0].get_xdata()                       
+                            leftBorderXdata = leftBorder[0].get_xdata()
                             leftBorderIndex = [i for i, eachTuple in enumerate(leftPeakBorder) if eachTuple[0] == leftBorderXdata] # index of the left dot
                     else:
                         leftBorder = [artist for artist in pickable_artists_plb_AX3 if artist.contains(event)[0]] # return the artist of the left black dot...
-                        leftBorderXdata = leftBorder[0].get_xdata() # initial position of the left dot 
+                        leftBorderXdata = leftBorder[0].get_xdata() # initial position of the left dot
                         leftBorderIndex = [i for i, eachTuple in enumerate(leftPeakBorder) if eachTuple[0] == leftBorderXdata] # index of the left dot
                 except:
                     pass
@@ -290,29 +294,29 @@ def on_motion(event):
                     if 'rightBorder' in globals():
                         rightBorderNew = [artist for artist in pickable_artists_prb_AX3 if artist.contains(event)[0]] # return the artist of the left black dot (under mouse)
                         if rightBorderNew==rightBorder:
-                            rightBorderXdata = rightBorder[0].get_xdata() #                       
+                            rightBorderXdata = rightBorder[0].get_xdata() #
                         else:
                             rightBorder=rightBorderNew
-                            rightBorderXdata = rightBorder[0].get_xdata()                       
+                            rightBorderXdata = rightBorder[0].get_xdata()
                             rightBorderIndex = [i for i, eachTuple in enumerate(rightPeakBorder) if eachTuple[0] == rightBorderXdata] #
                     else:
                         rightBorder = [artist for artist in pickable_artists_prb_AX3 if artist.contains(event)[0]] #
-                        rightBorderXdata = rightBorder[0].get_xdata() #  
+                        rightBorderXdata = rightBorder[0].get_xdata() #
                         rightBorderIndex = [i for i, eachTuple in enumerate(rightPeakBorder) if eachTuple[0] == rightBorderXdata] #
                 except:
                     pass
 
                 # logic for peak movement
-                if len(leftBorder)==1 and len(rightBorder)>=0:                   
+                if len(leftBorder)==1 and len(rightBorder)>=0:
                     idxL = (np.abs(x-event.xdata)).argmin()
                     leftBorder[0].set_xdata(x[idxL])
-                    leftBorder[0].set_ydata(dataAfterFilter[idxL])                    
+                    leftBorder[0].set_ydata(dataAfterFilter[idxL])
 
                     indexA = leftBorderIndex[0]
                     idxR = x.index(rightPeakBorder[indexA][0])
 
                     leftPeakBorder=list(leftPeakBorder)
-                    leftPeakBorder = leftPeakBorder[:indexA] + [(x[idxL], dataAfterFilter[idxL])] + leftPeakBorder[indexA+1:] # 
+                    leftPeakBorder = leftPeakBorder[:indexA] + [(x[idxL], dataAfterFilter[idxL])] + leftPeakBorder[indexA+1:] #
 
                     interpolatedLine = GUI.interpolation(leftPeakBorder[indexA], rightPeakBorder[indexA], idxL, idxR)
 
@@ -326,7 +330,7 @@ def on_motion(event):
                     pickable_artists_lnsP_AX3 = pickable_artists_lnsP_AX3[:indexA] + [lns3TruePeak] + pickable_artists_lnsP_AX3[indexA+1:]
 
                     peakAmplitude = max(peakFullArea)
-                    amplitudes = amplitudes[:indexA] + [peakAmplitude] + amplitudes[indexA+1:]       
+                    amplitudes = amplitudes[:indexA] + [peakAmplitude] + amplitudes[indexA+1:]
 
                     amplitudeLineCoordinates=list(amplitudeLineCoordinates)
                     amplitudeLineCoordinates[indexA][1][0]=peakAmplitude
@@ -340,21 +344,21 @@ def on_motion(event):
                                     interpolatedLine, \
                                     np.array(dataAfterFilter[idxL:idxR]), \
                                     facecolor='green', interpolate=True, alpha=0.4)
-                    pickable_artists_fill_AX3 = pickable_artists_fill_AX3[:indexA] + [pts3fill] + pickable_artists_fill_AX3[indexA+1:] # 
+                    pickable_artists_fill_AX3 = pickable_artists_fill_AX3[:indexA] + [pts3fill] + pickable_artists_fill_AX3[indexA+1:] #
 
                     GUI.fig.canvas.draw()
 
 
-                elif (len(leftBorder)>=0 and len(rightBorder)==1):             
+                elif (len(leftBorder)>=0 and len(rightBorder)==1):
                     idxR = (np.abs(x-event.xdata)).argmin()
                     rightBorder[0].set_xdata(x[idxR])
-                    rightBorder[0].set_ydata(dataAfterFilter[idxR])                    
+                    rightBorder[0].set_ydata(dataAfterFilter[idxR])
 
                     indexA = rightBorderIndex[0]
                     idxL = x.index(leftPeakBorder[indexA][0])
 
                     rightPeakBorder=list(rightPeakBorder)
-                    rightPeakBorder = rightPeakBorder[:indexA] + [(x[idxR], dataAfterFilter[idxR])] + rightPeakBorder[indexA+1:] # 
+                    rightPeakBorder = rightPeakBorder[:indexA] + [(x[idxR], dataAfterFilter[idxR])] + rightPeakBorder[indexA+1:] #
 
                     interpolatedLine = GUI.interpolation(leftPeakBorder[indexA], rightPeakBorder[indexA], idxL, idxR)
 
@@ -368,7 +372,7 @@ def on_motion(event):
                     pickable_artists_lnsP_AX3 = pickable_artists_lnsP_AX3[:indexA] + [lns3TruePeak] + pickable_artists_lnsP_AX3[indexA+1:]
 
                     peakAmplitude = max(peakFullArea)
-                    amplitudes = amplitudes[:indexA] + [peakAmplitude] + amplitudes[indexA+1:]       
+                    amplitudes = amplitudes[:indexA] + [peakAmplitude] + amplitudes[indexA+1:]
 
                     amplitudeLineCoordinates=list(amplitudeLineCoordinates)
                     amplitudeLineCoordinates[indexA][1][0]=peakAmplitude
@@ -382,7 +386,7 @@ def on_motion(event):
                                     interpolatedLine, \
                                     np.array(dataAfterFilter[idxL:idxR]), \
                                     facecolor='green', interpolate=True, alpha=0.4)
-                    pickable_artists_fill_AX3 = pickable_artists_fill_AX3[:indexA] + [pts3fill] + pickable_artists_fill_AX3[indexA+1:] # 
+                    pickable_artists_fill_AX3 = pickable_artists_fill_AX3[:indexA] + [pts3fill] + pickable_artists_fill_AX3[indexA+1:] #
 
                     GUI.fig.canvas.draw()
 
@@ -395,8 +399,8 @@ class MyWindow(QtGui.QMainWindow):
 
     def __init__(self):
         super(MyWindow, self).__init__()
-        uic.loadUi('Extrema_picker_layout.ui', self)
-        self.setWindowTitle('PeakInspector 1.0 (c) ASalykin - Masaryk University - CC BY')
+        uic.loadUi('PeakInspector.ui', self)
+        self.setWindowTitle('PeakInspector 0.6 (c) ASalykin - Masaryk University - CC BY-SA 4.0')
 
         # Some interactive GUI elements
         self.BtnLoadFile.clicked.connect(self.loadFile)
