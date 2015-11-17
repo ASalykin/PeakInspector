@@ -61,7 +61,7 @@
             </ul>
 
             It is recommended to install <a href="https://www.continuum.io/downloads">Anaconda package</a>
-             that already contain all required packages.
+             which already contains all required packages.
 
             For better experience it is recommended to work with PeakInspector on monitor with FullHD resolution (1920x1080).
 
@@ -92,7 +92,7 @@
                         If data contain header, or any additional information at the beginning or end of the file one could skip this rows by
                         specifying how many rows to skip.
 
-                        Data will be loaded and preprocessed auutomatically.
+                        Data will be loaded and preprocessed automatically.
 
 
                     </p>
@@ -103,8 +103,21 @@
                         To see the changed graphical ouput user have to press the <b>"Replot"</b> button.
 
                     </p>
+
+                    <p>
+                        The general procedure of peak analysis include clicking by the left mouse button near the peak local maximum
+                        (with enabled option <b>"Enable peak choosing"</b>). Than
+
+                    </p>
                 <li>Save ouput</li>
-                    <p>Load data</p>
+                    <p>
+                        All files analysed are considered as a batch (one treatment, one biological repetition, etc), and
+                        clicking on the button <b>"Analyse and save file"</b> save currenly analysed file into table inside PeakInspector,
+                        and add it to previously analysed files from the same batch. To save the all analysed peak from the batch as a table
+                        (for now the default output is Excel file) user have to click the <b>"Export analysed files to Excel"</b>.
+
+
+                    </p>
             </ul>
 
         </p>
@@ -114,7 +127,9 @@
         </h3>
         <p>
             <ul>
-                <li>Choosing desired output</li>
+                <li>Choosing desired output format</li>
+                <li>Choosing desired peak properties</li>
+                <li>Add other parameters of peaks to analyse</li>
             </ul>
         </p>
 
