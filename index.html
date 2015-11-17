@@ -27,9 +27,10 @@
           <!--Welcome to PeakInspector project page-->
       <!--</h3>-->
         <p>
-            PeakInspector represents a simple standalone application for interactive analysis of peak propetries in time-series data.
-            PeakInspector allow to preprocess data before the analysis by baseline normalising, linear detrending (optionally) and smoothing data
-            (by  <a href="https://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_filter">Savitzky–Golay filter</a>).
+            PeakInspector represents a simple standalone application for interactive analysis of peak properties in time-series data.
+            PeakInspector allows to preprocess data before the analysis by baseline normalising, linear detrending (optionally) and smoothing data
+            (by  <a href="https://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_filter">Savitzky–Golay filter</a>). For the full list of a peak
+            properties which could be currently analysed by PeakInspector please refer to <a href="#peak_features">this</a> checklist.
         </p>
         <p>
             PeakInspector was written by Anton Salykin, Ph.D. (Masaryk University, Czech Republic).
@@ -82,7 +83,7 @@
         Explanation tip will automatically pop-up.</p>
         <p>
             <ul>
-                <li>Load data</li>
+                <li><h4>Load data</h4></li>
                     <img src="img/blank_PI.png">
                     <p>
                         Data file could be loaded by simple click on <b>"Load file"</b> button. File should be in text format, and contain
@@ -96,7 +97,7 @@
 
 
                     </p>
-                <li>Analyse peaks</li>
+                <li><h4>Analyse peaks</h4></li>
                     <p>
                         Dy default the option <b>"Detrend data"</b> is enabled. As well as some options for Savitzky–Golay filter are also specified.
                         If not needed, user can disable <b>"Detrend data"</b> option, as well as change parameters for Savitzky–Golay filter.
@@ -110,12 +111,12 @@
                         (taking into account the option <b>"Peak detection window"</b>, which specifies the "distance" in data points withing
                         which the peak maximum will be searched from the initial user click). Along with that, PeakInspector will try to find where peak starts and ends,
                         and calculate properties of the peak, which include:
-                        <ul>
+                        <ul><a name="peak_features"></a>
                             <li>Time of the peak maximum</li>
                             <li>Time of the peak start</li>
                             <li>Time of the peak end</li>
-                            <li>Time of the peak start value (ordinate)</li>
-                            <li>Time of the peak end vale (ordinate)</li>
+                            <li>Peak start value (ordinate)</li>
+                            <li>Peak end vale (ordinate)</li>
                             <li>Absolute amplitude (A, according to the normalized baseline, which is 0)</li>
                             <li>Maximal amplitude among all peaks in current data file</li>
                             <li>Absolute amplitude relative to the maximal amplitude among all peaks in current data</li>
@@ -137,9 +138,11 @@
                     </p>
 
                     <p>
-                        User can interactively move the peak borders (start and end points of the peak) by simply drag the corresponding point by right mouse button
+                        User can interactively move the peak borders (start and end points of the peak) by simply drag
+                        the corresponding point by right mouse button, or explicitly point to the region where it shoud be
+                        by pressing <b>CTRL+Right mouse button</b> for the peak start, and <b>ALT+Right mouse button</b> for the peak end point.
                     </p>
-                <li>Save ouput</li>
+                <li><h4>Save ouput</h4></li>
                     <p>
                         All files analysed are considered as a batch (one treatment, one biological repetition, etc), and
                         clicking on the button <b>"Analyse and save file"</b> save currenly analysed file into table inside PeakInspector,
