@@ -685,7 +685,7 @@
              </font>
             </property>
             <property name="text">
-             <string>Delimeter used:</string>
+             <string>Delimiter used:</string>
             </property>
            </widget>
           </item>
