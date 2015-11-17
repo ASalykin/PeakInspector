@@ -72,7 +72,7 @@
             Installation
         </h3>
         <p>
-            It is possible to use PeakInspector by simple downloading the archive (on the top page), or clone this reppository.
+            It is possible to use PeakInspector by simple downloading the archive (on the top page), or clone this repository.
         </p>
 
         <h3>
@@ -87,7 +87,7 @@
                     <p>
                         Data file could be loaded by simple click on <b>"Load file"</b> button. File should be in text format, and contain
                         1 (time invariant, data indeces will be considered on time scale) or
-                        2 columns of data (in case specifically recorded time). Delimeter between columns could be explicitly chosen.
+                        2 columns of data (in case specifically recorded time). Delimiter between columns could be explicitly chosen.
 
                         If data contain header, or any additional information at the beginning or end of the file one could skip this rows by
                         specifying how many rows to skip.
@@ -106,8 +106,38 @@
 
                     <p>
                         The general procedure of peak analysis include clicking by the left mouse button near the peak local maximum
-                        (with enabled option <b>"Enable peak choosing"</b>). Than
+                        (with enabled option <b>"Enable peak choosing"</b>). PeakInspector automatically search for the true local peak maximum
+                        (taking into account the option <b>"Peak detection window"</b>, which specifies the "distance" in data points withing
+                        which the peak maximum will be searched from the initial user click). Along with that, PeakInspector will try to find where peak starts and ends,
+                        and calculate properties of the peak, which include:
+                        <ul>
+                            <li>Time of the peak maximum</li>
+                            <li>Time of the peak start</li>
+                            <li>Time of the peak end</li>
+                            <li>Time of the peak start value (ordinate)</li>
+                            <li>Time of the peak end vale (ordinate)</li>
+                            <li>Absolute amplitude (A, according to the normalized baseline, which is 0)</li>
+                            <li>Maximal amplitude among all peaks in current data file</li>
+                            <li>Absolute amplitude relative to the maximal amplitude among all peaks in current data</li>
+                            <li>Relative amplitude to the original baseline (absolute amplitude / original baseline value for current peak)</li>
+                            <li>Maximal relative amplitude among all peaks in current data file</li>
+                            <li>Relative amplitude relative to the maximal relative amplitude among all peaks in current data</li>
+                            <li>Period (P, time between 2 nearest peak maxima)</li>
+                            <li>Frequency (1/P, just value, opposite to period)</li>
+                            <li>Halfdecay time</li>
+                            <li>Halfdecay amplitude</li>
+                            <li>Time to peak (from peak start to peak maximum)</li>
+                            <li>Decay time (from peak maximum to peak end)</li>
+                            <li>Full peak time (from peak start to peak end)</li>
+                            <li>AUC (area under the curve, or peak area)</li>
+                            <li>Frequency (Hz) of big peaks in current data file (with absolule amplitude >=0.66)</li>
+                            <li>Frequency (Hz) of medium peaks in current data file (with absolule amplitude >=0.33 and <0.66)</li>
+                            <li>Frequency (Hz) of small peaks in current data file (with absolule amplitude <0.33)</li>
+                        </ul>
+                    </p>
 
+                    <p>
+                        User can interactively move the peak borders (start and end points of the peak) by simply drag the corresponding point by right mouse button
                     </p>
                 <li>Save ouput</li>
                     <p>
@@ -129,6 +159,7 @@
             <ul>
                 <li>Choosing desired output format</li>
                 <li>Choosing desired peak properties</li>
+                <li>More smooth experience with the dragging peak border poins by right mouse button</li>
                 <li>Add other parameters of peaks to analyse</li>
             </ul>
         </p>
