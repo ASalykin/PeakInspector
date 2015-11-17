@@ -20,83 +20,110 @@
 
     <section class="main-content">
 
-      <h3>
-        <a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true">
-          <span class="octicon octicon-link"></span>
-        </a>Welcome to PeakInspector project page.
-      </h3>
-
+      <!--<h3>-->
+        <!--&lt;!&ndash;<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true">&ndash;&gt;-->
+          <!--&lt;!&ndash;<span class="octicon octicon-link"></span>&ndash;&gt;-->
+        <!--&lt;!&ndash;</a>&ndash;&gt;-->
+          <!--Welcome to PeakInspector project page-->
+      <!--</h3>-->
         <p>
-            PeakInspector represents a standalone application for interactive inspecting time-series data.
-            The main purpose of PeakInspector is to analyse properties of the peaks in time series data.
+            PeakInspector represents a simple standalone application for interactive analysis of peak propetries in time-series data.
+            PeakInspector allow to preprocess data before the analysis by baseline normalising, linear detrending (optionally) and smoothing data
+            (by  <a href="https://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_filter">Savitzky–Golay filter</a>).
+        </p>
+        <p>
+            PeakInspector was written by Anton Salykin, Ph.D. (Masaryk University, Czech Republic).
         </p>
 
+        <h3>
+            Release 18.11.2015
+        </h3>
         <p>
-            If you would use PeakInspector in your work, please, site paper: PAPER
+            The first version of PeakInspecor is now available.
+            This software a beta release, meaning that it is a work in progress, and new features will be
+            added in the near future. To report a bugs, discuss this software or suggest new features please
+            directly contact me a{dot}salykin[at]mail{dot}muni{dot}cz.
         </p>
-
         <p>
           <img src="img/test_image.png">
         </p>
 
         <h3>
-            <a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true">
-              <span class="octicon octicon-link"></span>
-            </a>Designer Templates
+            Requirements
         </h3>
-
-        <p>We’ve crafted some handsome templates for you to use. Go ahead and click 'Continue to layouts'
-            to browse through them. You can easily go back to edit your page before publishing. After publishing your page,
-            you can revisit the page generator and switch to another theme. Your Page content will be preserved.
-        </p>
-
-        <h3>
-            <a id="creating-pages-manually" class="anchor" href="#creating-pages-manually" aria-hidden="true">
-              <span class="octicon octicon-link"></span>
-            </a>Creating pages manually
-        </h3>
-
-
         <p>
-            If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your
-            repository to create a page manually. In addition to supporting regular HTML content,
-            GitHub Pages support Jekyll, a simple, blog aware static site generator. Jekyll makes
-            it easy to create site-wide headers and footers without having to copy them across every page.
-            It also offers intelligent blog support and other advanced templating features.
+            PeakInspector is written in Python 3.x, and generally platform-independent. The following packages are required:
+            <ul>
+                <li>PyQt4</li>
+                <li>numpy</li>
+                <li>scipy</li>
+                <li>matplotlib</li>
+            </ul>
+
+            It is recommended to install <a href="https://www.continuum.io/downloads">Anaconda package</a>
+             that already contain all required packages.
+
+            For better experience it is recommended to work with PeakInspector on monitor with FullHD resolution (1920x1080).
+
         </p>
 
-        <h3>
-            <a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true">
-                <span class="octicon octicon-link"></span>
-            </a>
-                Authors and Contributors
-        </h3>
 
+        <h3>
+            Installation
+        </h3>
         <p>
-            You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a
-            GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will
-            link to the contributor’s GitHub Profile. For example: In 2007,
-            Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>),
-            PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>),
-            and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.
+            It is possible to use PeakInspector by simple downloading the archive (on the top page), or clone this reppository.
         </p>
 
         <h3>
-            <a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true">
-                <span class="octicon octicon-link"></span>
-            </a>
-                Support or Contact
+            Working with PeakIspector
         </h3>
+        <p>Explanation of every option on the graphical interface could be obtained by simple cursor-over the option and waiting for 1-2 seconds.
+        Explanation tip will automatically pop-up.</p>
+        <p>
+            <ul>
+                <li>Load data</li>
+                    <img src="img/blank_PI.png">
+                    <p>
+                        Data file could be loaded by simple click on <b>"Load file"</b> button. File should be in text format, and contain
+                        1 (time invariant, data indeces will be considered on time scale) or
+                        2 columns of data (in case specifically recorded time). Delimeter between columns could be explicitly chosen.
 
-        <p>Having trouble with Pages? Check out our <a href="https://help.github.com/pages">documentation</a> or
-            <a href="https://github.com/contact">contact support</a> and we’ll help you sort it out.
+                        If data contain header, or any additional information at the beginning or end of the file one could skip this rows by
+                        specifying how many rows to skip.
+
+                        Data will be loaded and preprocessed auutomatically.
+
+
+                    </p>
+                <li>Analyse peaks</li>
+                    <p>
+                        Dy default the option <b>"Detrend data"</b> is enabled. As well as some options for Savitzky–Golay filter are also specified.
+                        If not needed, user can disable <b>"Detrend data"</b> option, as well as change parameters for Savitzky–Golay filter.
+                        To see the changed graphical ouput user have to press the <b>"Replot"</b> button.
+
+                    </p>
+                <li>Save ouput</li>
+                    <p>Load data</p>
+            </ul>
+
         </p>
 
-      <footer class="site-footer">
-        <span class="site-footer-owner"><a href="https://github.com/ASalykin/PeakInspector">Peakinspector</a> is maintained by <a href="https://github.com/ASalykin">ASalykin</a>.</span>
+        <h3>
+            Features to be added in the future
+        </h3>
+        <p>
+            <ul>
+                <li>Choosing desired output</li>
+            </ul>
+        </p>
+
+
+    <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/ASalykin/PeakInspector">PeakInspector</a> is maintained by <a href="https://github.com/ASalykin">ASalykin</a>.</span>
 
         <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
-      </footer>
+    </footer>
 
     </section>
 
