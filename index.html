@@ -27,7 +27,7 @@
           <!--Welcome to PeakInspector project page-->
       <!--</h3>-->
         <p>
-            PeakInspector represents a simple standalone application for interactive analysis of peak properties in time-series data.
+            PeakInspector represents a simple standalone application with GUI for interactive analysis of peak properties in time-series data.
             PeakInspector allows to preprocess data before the analysis by baseline normalising, linear detrending (optionally) and smoothing data
             (by  <a href="https://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_filter">Savitzky–Golay filter</a>). For the full list of a peak
             properties which could be currently analysed by PeakInspector please refer to <a href="#peak_features">this</a> checklist.
@@ -36,17 +36,17 @@
             <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">PeakInspector</span> written by <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">A.Salykin, PhD (Masaryk University)</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
         </p>
 
+       <p>
+          <img src="img/PeakInspector_screenshot.jpg">
+        </p>
+
         <h3>
             Release 18.11.2015
         </h3>
         <p>
-            The first version of PeakInspecor is now available.
-            This software a beta release, meaning that it is a work in progress, and new features will be
+            The first beta-version of PeakInspecor is available. <a href="#new_features">New features</a> will be
             added in the near future. To report a bugs, discuss this software or suggest new features please
-            directly contact me a{dot}salykin[at]mail{dot}muni{dot}cz.
-        </p>
-        <p>
-          <img src="img/test_image.png">
+            directly contact the author: a{dot}salykin[at]mail{dot}muni{dot}cz.
         </p>
 
         <h3>
@@ -62,8 +62,7 @@
             </ul>
 
             It is recommended to install <a href="https://www.continuum.io/downloads">Anaconda package</a>
-             which already contains all required packages.
-
+             which already contains all required packages and makes Python use very easy by automatically assigning system paths.
             For better experience it is recommended to work with PeakInspector on monitor with FullHD resolution (1920x1080).
 
         </p>
@@ -73,7 +72,9 @@
             Installation
         </h3>
         <p>
-            It is possible to use PeakInspector by simple downloading the archive (on the top page), or clone this repository.
+            <a href="https://github.com/ASalykin/PeakInspector/zipball/master">Download .zip archive</a>, or
+            clone <a href="https://github.com/ASalykin/PeakInspector">this</a> repository, navigate to the folder PeakInspector and execute <b>PeakInspector.py</b>:</p>
+            <code>python PeakInspector.py</code>
         </p>
 
         <h3>
@@ -88,12 +89,12 @@
                     <p>
                         Data file could be loaded by simple click on <b>"Load file"</b> button. File should be in text format, and contain
                         1 (time invariant, data indeces will be considered on time scale) or
-                        2 columns of data (in case specifically recorded time). Delimiter between columns could be explicitly chosen.
+                        2 columns of data (in case when time is specifically recorded). Delimiter between columns could be explicitly chosen under the <b>"Load file"</b> button. Example of the datafile could be found
+                        in the folder "Sample_data".</p>
 
-                        If data contain header, or any additional information at the beginning or end of the file one could skip this rows by
+                      <p>  If data contain header, or any additional information at the beginning or end of the file one could skip this rows by
                         specifying how many rows to skip.
 
-                        Data will be loaded and preprocessed automatically.
 
 
                     </p>
@@ -142,14 +143,22 @@
                         the corresponding point by right mouse button, or explicitly point to the region where it shoud be
                         by pressing <b>CTRL+Right mouse button</b> for the peak start, and <b>ALT+Right mouse button</b> for the peak end point.
                     </p>
+
+                    <p>
+                        After every interaction with the graph the picure will be updated as well as all peak parameters will be automatically recalculated in real time.
+                    </p>
                 <li><h4>Save ouput</h4></li>
                     <p>
                         All files analysed are considered as a batch (one treatment, one biological repetition, etc), and
                         clicking on the button <b>"Analyse and save file"</b> save currenly analysed file into table inside PeakInspector,
-                        and add it to previously analysed files from the same batch. To save the all analysed peak from the batch as a table
+                        and add it to previously analysed files from the same batch, if any. To save the all analysed peak from the batch as a table
                         (for now the default output is Excel file) user have to click the <b>"Export analysed files to Excel"</b>.
+                    </p>
 
-
+                    <p>
+                        In addition, along with saving every file with <b>"Analyse and save file"</b> button, the graphical output of data and analysed peaks
+                        (basically, what user will see on the graph) will be saved into the
+                        automatically created "_Figures" folder in the folder where user will have the PeakInspector.py file. User can disable this option, or change the figures DPI.
                     </p>
             </ul>
 
@@ -157,11 +166,12 @@
 
         <h3>
             Features to be added in the future
+            <a name="new_features"></a>
         </h3>
         <p>
             <ul>
-                <li>Choosing desired output format</li>
-                <li>Choosing desired peak properties</li>
+                <li>Choosing desired output format (xlsx, scv, etc)</li>
+                <li>Choosing desired peak properties for output (only, e.g., peak maximum time and amplitude)</li>
                 <li>More smooth experience with the dragging peak border poins by right mouse button</li>
                 <li>Add other parameters of peaks to analyse</li>
             </ul>
