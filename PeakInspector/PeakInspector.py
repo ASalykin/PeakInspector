@@ -5,7 +5,7 @@ from PyQt4 import QtGui, QtCore, uic
 import numpy as np
 
 import pandas as pd
-from pandas import DataFrame, read_csv
+# from pandas import DataFrame, read_csv
 
 import scipy.signal as sig
 from scipy import interpolate
