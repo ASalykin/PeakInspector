@@ -20,6 +20,8 @@ from matplotlib import style
 
 #TODO secondary tab in GUI with output options
 #TODO multiple output formats and unified format of code for output production
+#TODO cant open data with small amount of points - probably because of the SG filter
+#TODO fix layout
 
 # Initialise the final dataframe that will contain analysed data to export to Excel
 multipleDataSets = pd.DataFrame()
@@ -109,7 +111,7 @@ def onclick(event):
             pts3lb, = ax3.plot(leftPeakBorder[-1][0], leftPeakBorder[-1][1], 'ko', ms=4, picker=15)
             pts3rb, = ax3.plot(rightPeakBorder[-1][0], rightPeakBorder[-1][1], 'ko', ms=4, picker=15)
   
-            # initiate fig instance
+            # initiate/update fig instance
             GUI.fig.canvas.draw()
 
             # appead corresponding artists for further manipulation (to remove and move)
@@ -400,7 +402,7 @@ class MyWindow(QtGui.QMainWindow):
     def __init__(self):
         super(MyWindow, self).__init__()
         uic.loadUi('PeakInspector.ui', self)
-        self.setWindowTitle('PeakInspector 0.6 (c) ASalykin - Masaryk University - CC BY-SA 4.0')
+        self.setWindowTitle('PeakInspector (beta) (c) ASalykin - Masaryk University - CC BY-SA 4.0')
 
         # Some interactive GUI elements
         self.BtnLoadFile.clicked.connect(self.loadFile)
