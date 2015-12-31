@@ -77,13 +77,11 @@ class OnMotion:
                 self.pickable_artists_lns_AX3 = self.pickable_artists_lns_AX3[:indexA] + [lns3] + self.pickable_artists_lns_AX3[indexA+1:]
 
                 self.pickable_artists_fill_AX3[indexA].remove()
-                pts3fill = self.ax3.fill_between(np.array(self.x[idxL:idxR]), \
-                                interpolated_line, \
-                                np.array(self.dataAfterFilter[idxL:idxR]), \
+                pts3fill = self.ax3.fill_between(np.array(self.x[idxL:idxR]),
+                                interpolated_line,
+                                np.array(self.dataAfterFilter[idxL:idxR]),
                                 facecolor='green', interpolate=True, alpha=0.4)
                 self.pickable_artists_fill_AX3 = self.pickable_artists_fill_AX3[:indexA] + [pts3fill] + self.pickable_artists_fill_AX3[indexA+1:] #
-
-                self.fig.canvas.draw()
 
             elif (len(self.leftBorder) >= 0 and len(self.rightBorder)==1):
                 idxR = (np.abs(self.x-event.xdata)).argmin()
@@ -118,13 +116,13 @@ class OnMotion:
                 self.pickable_artists_lns_AX3 = self.pickable_artists_lns_AX3[:indexA] + [lns3] + self.pickable_artists_lns_AX3[indexA+1:]
 
                 self.pickable_artists_fill_AX3[indexA].remove()
-                pts3fill = self.ax3.fill_between(np.array(self.x[idxL:idxR]), \
-                                interpolated_line, \
-                                np.array(self.dataAfterFilter[idxL:idxR]), \
+                pts3fill = self.ax3.fill_between(np.array(self.x[idxL:idxR]),
+                                interpolated_line,
+                                np.array(self.dataAfterFilter[idxL:idxR]),
                                 facecolor='green', interpolate=True, alpha=0.4)
-                self.pickable_artists_fill_AX3 = self.pickable_artists_fill_AX3[:indexA] + [pts3fill] + self.pickable_artists_fill_AX3[indexA+1:] #
-
-                self.fig.canvas.draw()
+                self.pickable_artists_fill_AX3 = self.pickable_artists_fill_AX3[:indexA] + [pts3fill] + self.pickable_artists_fill_AX3[indexA+1:]  #
 
             else:
                 pass
+
+            self.fig.canvas.draw()

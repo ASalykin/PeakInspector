@@ -24,7 +24,7 @@ class MainWindow(QtGui.QMainWindow, OnClick, OnMotion):
         self.setWindowTitle("PeakInspector (beta) (c) ASalykin - Masaryk University - CC-BY-SA 4.0")
 
         # Variables:
-        self.multipleDataSets = pd.DataFrame()  # Initialise the final dataframe to export to Excel
+        self.multiple_data_sets = pd.DataFrame()  # Initialise the final dataframe to export to Excel
 
         # Connect buttons to class methods:
         self.BtnLoadFile.clicked.connect(self.loadFile)
@@ -61,7 +61,9 @@ class MainWindow(QtGui.QMainWindow, OnClick, OnMotion):
                 self.canvas.mpl_disconnect(self.cid_click)
                 self.canvas.mpl_disconnect(self.cid_motion)
         except:
-            pass
+            message = MessageBox()
+            message.about(self, 'Warning!', "File was not loaded! \n Please be sure that your file has \
+                \n 1) 1 or 2 columns; \n 2) check headers, footers and delimeter \n and try again.")
 
     def rmmpl(self, ):  #
         self.canvas.mpl_disconnect(self.cid_click)
@@ -86,14 +88,14 @@ class MainWindow(QtGui.QMainWindow, OnClick, OnMotion):
 
             # get more readable file name for graph title
             try:
-                slashIndex = self.find_character(name, '/')
-                dotIndex = self.find_character(name, '.')
-                self.graphName = name[slashIndex[-1] + 1:dotIndex[-1]]
+                slash_index = self.find_character(name, '/')
+                dot_index = self.find_character(name, '.')
+                self.graphName = name[slash_index[-1] + 1:dot_index[-1]]
             except:
                 self.graphName = name
 
-            SkipHeaderRows = self.BoxSkipHeader.value()
-            SkipFooterRows = self.BoxSkipFooter.value()
+            skip_header_rows = self.BoxSkipHeader.value()
+            skip_footer_rows = self.BoxSkipFooter.value()
 
             # upnpack file
             try:  # if data file has 2 columns
@@ -107,14 +109,14 @@ class MainWindow(QtGui.QMainWindow, OnClick, OnMotion):
                     delimeter = "."
                 self.x, self.y = np.genfromtxt(name,
                                      delimiter=delimeter,
-                                     skip_header=SkipHeaderRows,
-                                     skip_footer=SkipFooterRows,
+                                     skip_header=skip_header_rows,
+                                     skip_footer=skip_footer_rows,
                                      unpack=True)
 
             except:  # if data file has 1 column
                 self.y = np.genfromtxt(name,
-                                  skip_header=SkipHeaderRows,
-                                  skip_footer=SkipFooterRows, unpack=True)
+                                  skip_header=skip_header_rows,
+                                  skip_footer=skip_footer_rows, unpack=True)
                 self.x = np.arange(0, len(self.y), 1)
 
             # prevent any change in 'x'
@@ -388,7 +390,7 @@ class MainWindow(QtGui.QMainWindow, OnClick, OnMotion):
                                                 'Low peaks, Hz'])
 
         # append current analysed dataset to existing ones
-        self.multipleDataSets = self.multipleDataSets.append(final_dataframe)
+        self.multiple_data_sets = self.multiple_data_sets.append(final_dataframe)
 
         if self.chbxSaveFig.isChecked():
             os.makedirs('_Figures', exist_ok=True)
@@ -402,11 +404,10 @@ class MainWindow(QtGui.QMainWindow, OnClick, OnMotion):
         self.loadFile()
 
     def save_data(self, ):
-        global multipleDataSets
         try:
-            fileName = QtGui.QFileDialog.getSaveFileName(self, 'Save file')
-            writer = pd.ExcelWriter('{fileName}.xlsx'.format(fileName=fileName))
-            self.multipleDataSets.to_excel(writer, index=True, sheet_name='Results')
+            file_name = QtGui.QFileDialog.getSaveFileName(self, 'Save file')
+            writer = pd.ExcelWriter('{}.xlsx'.format(file_name))
+            self.multiple_data_sets.to_excel(writer, index=True, sheet_name='Results')
             writer.sheets['Results'].set_zoom(85)
             writer.sheets['Results'].set_column('A:A', 5)
             writer.sheets['Results'].set_column('B:B', 35)
@@ -415,7 +416,7 @@ class MainWindow(QtGui.QMainWindow, OnClick, OnMotion):
 
             message = MessageBox()
             message.about(self, 'Data saved', "Data were saved!")
-            self.multipleDataSets = pd.DataFrame()
+            self.multiple_data_sets = pd.DataFrame()
         except:
             message = MessageBox()
             message.about(self, 'Warning!', "Data were not exported to Excel! \n Please try again.")
@@ -440,7 +441,7 @@ class MainWindow(QtGui.QMainWindow, OnClick, OnMotion):
 
     def closeEvent(self, event):
         """Exchange default event to add a dialog"""
-        if self.multipleDataSets.empty:
+        if self.multiple_data_sets.empty:
             reply = MessageBox.question(self, 'Warning!',
                                         "Are you sure to quit?", QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
         else:

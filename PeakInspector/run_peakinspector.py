@@ -2,6 +2,7 @@
 import sys
 from PyQt4 import QtGui
 from MainWindow import MainWindow
+from OnClick import OnClick
 
 
 def run_peakinspector():
@@ -18,3 +19,4 @@ if __name__ == '__main__':
 # TODO multiple output formats and unified format of code for output production
 # TODO cant open data with small amount of points - probably because of the SG filter
 # TODO fix layout
+# TODO mpl style change
