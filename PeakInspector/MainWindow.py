@@ -242,7 +242,7 @@ class MainWindow(QtGui.QMainWindow, OnClick, OnMotion):
         """
         coord_x, coord_y = zip(*self.coordinates)
         leftpb_x, leftpb_y = zip(*self.left_peak_border)
-        rightpb_x, rightpb_y= zip(*self.left_peak_border)
+        rightpb_x, rightpb_y= zip(*self.right_peak_border)
 
         # absolute amplitude % and MAX
         relative_amplitude = []
@@ -299,8 +299,7 @@ class MainWindow(QtGui.QMainWindow, OnClick, OnMotion):
             half_decay_ampl = df_sorted.at[i, 'Amplitude'] / 2  # calculate the half of the amplitude
             peak_index = self.x.index(df_sorted.at[i, 'Peak Time'])  # find index of the peak time
             stop_idx = self.x.index(df_sorted.at[i, 'Peak Stop Time'])  # find index of the right peak border
-            data_decay_region = self.data_after_filter[
-                              peak_index:stop_idx]  # determine the amplitude region where to search for halftime decay index
+            data_decay_region = self.data_after_filter[peak_index:stop_idx]  # determine the amplitude region where to search for halftime decay index
             time_decay_region = self.x[peak_index:stop_idx]
             half_decay_idx = (np.abs(data_decay_region - half_decay_ampl)).argmin()  # find the closet value in data_decay_region that corresponds to the half amplitude
 
@@ -482,7 +481,7 @@ class MainWindow(QtGui.QMainWindow, OnClick, OnMotion):
         self.amplitudes = []
         self.amplitude_line_coordinates = []
         self.left_peak_border = []
-        self.left_peak_border = []
+        self.right_peak_border = []
         self.pickable_artists_pts_AX2 = []
         self.pickable_artists_pts_AX3 = []
         self.pickable_artists_lns_AX3 = []

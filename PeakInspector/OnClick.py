@@ -1,16 +1,11 @@
 from abc import ABCMeta, abstractmethod
 import numpy as np
 from PyQt4 import QtGui, QtCore
-
 from OnMotion import OnMotion
 
 
-#%% main function executed on mouse click for peak detection
 class OnClick:
     __metaclass__ = ABCMeta
-
-    def __init__(self):
-        pass
 
     def on_click(self, event):
         modifier = QtGui.QApplication.keyboardModifiers()
@@ -101,7 +96,7 @@ class OnClick:
             elif (event.button == 1 and modifier == QtCore.Qt.ControlModifier) or event.button == 2: # remove artists under the cursor
                 removePtsAx3 = [artist for artist in self.pickable_artists_pts_AX3 if artist.contains(event)[0]]
 
-                xIdxArtist=[] # placeholder for artists' indexes among currently plotted artists
+                # xIdxArtist=[] # placeholder for artists' indexes among currently plotted artists
 
                 for artist in removePtsAx3:
                     removedArtistXdata = artist.get_xdata()

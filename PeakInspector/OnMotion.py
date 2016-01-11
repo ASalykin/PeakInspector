@@ -6,9 +6,6 @@ import numpy as np
 class OnMotion:
     __metaclass__ = ABCMeta
 
-    def __init__(self):
-        pass
-
     def on_motion(self, event):
         modifier = QtGui.QApplication.keyboardModifiers()
         if event.inaxes == self.ax3 and event.button == 3 and modifier == QtCore.Qt.NoModifier:
@@ -26,7 +23,7 @@ class OnMotion:
                     self.left_border_x_data = self.left_border[0].get_xdata() # initial position of the left dot
                     self.left_border_index = [i for i, eachTuple in enumerate(self.left_peak_border) if eachTuple[0] == self.left_border_x_data] # index of the left dot
             except:
-                print("left")
+                pass
 
             try:# to determine whether user pointed on the right peak border
                 if len(self.right_border) > 0:
@@ -42,7 +39,7 @@ class OnMotion:
                     self.right_border_x_data = self.right_border[0].get_xdata() #
                     self.right_border_index = [i for i, eachTuple in enumerate(self.right_peak_border) if eachTuple[0] == self.right_border_x_data] #
             except:
-                print("right")
+                pass
 
             if len(self.left_border) == 1 and len(self.right_border) >= 0:
                 idxL = (np.abs(self.x-event.xdata)).argmin()
