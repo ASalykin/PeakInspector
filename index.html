@@ -26,22 +26,25 @@
         <!--&lt;!&ndash;</a>&ndash;&gt;-->
           <!--Welcome to PeakInspector project page-->
       <!--</h3>-->
+
         <p>
-            PeakInspector represents a simple standalone application with GUI for interactive analysis of peak properties in time-series data.
+          <img src="img/peak_selection_optimized.gif">
+        </p>
+
+
+        <p>
+            PeakInspector represents a simple standalone GUI-driven application for interactive analysis of peak properties in time-series data.
             PeakInspector allows to preprocess data before the analysis by baseline normalising, linear detrending (optionally) and smoothing data
             (by  <a href="https://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_filter">Savitzky–Golay filter</a>). For the full list of a peak
             properties which could be currently analysed by PeakInspector please refer to <a href="#peak_features">this</a> checklist.
         </p>
         <p>
-            <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">PeakInspector</span> written by <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">A.Salykin, PhD (Masaryk University)</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+            <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">PeakInspector</span> is written by <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">A.Salykin, PhD (Masaryk University)</span> and distributed under the <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
         </p>
 
-       <p>
-          <img src="img/PeakInspector_screenshot.jpg">
-        </p>
 
         <h3>
-            Release 18.11.2015
+            Beta-release 11.01.2016
         </h3>
         <p>
             The first beta-version of PeakInspecor is available. <a href="#new_features">New features</a> will be
@@ -61,11 +64,12 @@
                 <li>matplotlib</li>
             </ul>
 
-            It is recommended to install <a href="https://www.continuum.io/downloads">Anaconda package</a>
-             which already contains all required packages and makes Python use very easy by automatically assigning system paths.
+            It is recommended to install <a href="https://www.continuum.io/downloads">Anaconda distribution</a>
+             which already contains all required packages and automatically assign system paths.
             For better experience it is recommended to work with PeakInspector on monitor with FullHD resolution (1920x1080).
-
         </p>
+
+
 
 
         <h3>
@@ -73,14 +77,16 @@
         </h3>
         <p>
             <a href="https://github.com/ASalykin/PeakInspector/zipball/master">Download .zip archive</a>, or
-            clone <a href="https://github.com/ASalykin/PeakInspector">this</a> repository, navigate to the folder PeakInspector and execute <b>PeakInspector.py</b>:</p>
+            clone <a href="https://github.com/ASalykin/PeakInspector">this</a> repository, navigate to the folder PeakInspector and execute <b>PeakInspector.py</b> from command line:</p>
             <code>python PeakInspector.py</code>
         </p>
+
+
 
         <h3>
             Working with PeakIspector
         </h3>
-        <p>Explanation of every option on the graphical interface could be obtained by simple cursor-over the option and waiting for 1-2 seconds.
+        <p>PeakInspector's GUI is divided into 2 parts (tabs) - "Main Window" and "Settings". Short explanation of the settings on the graphical interface could be obtained by simple cursor-over the option and waiting for 1-2 seconds.
         Explanation tip will automatically pop-up.</p>
         <p>
             <ul>
@@ -89,75 +95,82 @@
                     <p>
                         Data file could be loaded by simple click on <b>"Load file"</b> button. File should be in text format, and contain
                         1 (time invariant, data indeces will be considered on time scale) or
-                        2 columns of data (in case when time is specifically recorded). Delimiter between columns could be explicitly chosen under the <b>"Load file"</b> button. Example of the datafile could be found
+                        2 columns of data (in case when time is specifically recorded). Delimiter between columns is explicitly chosen in the <b>Settings</b> tab. Example datafile may be found
                         in the folder "Sample_data".</p>
 
-                      <p>  If data contain header, or any additional information at the beginning or end of the file one could skip this rows by
-                        specifying how many rows to skip.
+                      <p>  If data contain header, or any additional information at the beginning or end of the file user should skip this rows by
+                        specifying how many rows to skip in the <b>Settings</b> tab.
 
 
 
                     </p>
                 <li><h4>Analyse peaks</h4></li>
                     <p>
-                        Dy default the option <b>"Detrend data"</b> is enabled. As well as some options for Savitzky–Golay filter are also specified.
+                        Dy default the option <b>"Detrend data"</b> is enabled. As well as options for Savitzky–Golay filter are also specified (in the <b>Settings</b> tab).
                         If not needed, user can disable <b>"Detrend data"</b> option, as well as change parameters for Savitzky–Golay filter.
                         To see the changed graphical ouput user have to press the <b>"Replot"</b> button.
-
                     </p>
 
                     <p>
                         The general procedure of peak analysis include clicking by the left mouse button near the peak local maximum
                         (with enabled option <b>"Enable peak choosing"</b>). PeakInspector automatically search for the true local peak maximum
                         (taking into account the option <b>"Peak detection window"</b>, which specifies the "distance" in data points withing
-                        which the peak maximum will be searched from the initial user click). Along with that, PeakInspector will try to find where peak starts and ends,
+                        which the peak maximum will be searched from the initial user click). Along with that, PeakInspector will try to find where peak starts and ends (based on the proximity points to baseline),
                         and calculate properties of the peak, which include:
                         <ul><a name="peak_features"></a>
                             <li>Time of the peak maximum</li>
-                            <li>Time of the peak start</li>
-                            <li>Time of the peak end</li>
+                            <li>Time of the left peak border</li>
+                            <li>Time of the right peak border</li>
                             <li>Peak start value (ordinate)</li>
                             <li>Peak end vale (ordinate)</li>
-                            <li>Absolute amplitude (A, according to the normalized baseline, which is 0)</li>
-                            <li>Maximal amplitude among all peaks in current data file</li>
-                            <li>Absolute amplitude relative to the maximal amplitude among all peaks in current data</li>
-                            <li>Relative amplitude to the original baseline (absolute amplitude / original baseline value for current peak)</li>
-                            <li>Maximal relative amplitude among all peaks in current data file</li>
-                            <li>Relative amplitude relative to the maximal relative amplitude among all peaks in current data</li>
-                            <li>Period (P, time between 2 nearest peak maxima)</li>
-                            <li>Frequency (1/P, just value, opposite to period)</li>
-                            <li>Halfdecay time</li>
-                            <li>Halfdecay amplitude</li>
-                            <li>Time to peak (from peak start to peak maximum)</li>
-                            <li>Decay time (from peak maximum to peak end)</li>
-                            <li>Full peak time (from peak start to peak end)</li>
+                            <li>Absolute amplitude (according to the normalized baseline, which is 0)</li>
+                            <li>Absolute amplitude maximum (for the current dataset)</li>
+                            <li>Absolute amplitude %</li>
+                            <li>Normalised amplitude (to the original baseline)</li>
+                            <li>Normalised amplitude maximum</li>
+                            <li>Normalised amplitude %</li>
+                            <li>Period (time between 2 nearest maxima)</li>
+                            <li>Frequency (1/period)</li>
+                            <li>Half-decay time</li>
+                            <li>Half-decay amplitude</li>
+                            <li>Time to peak (ascending time, or time from left peak border to peak maximum)</li>
+                            <li>Decay time (from peak maximum to right peak border)</li>
+                            <li>Full peak time</li>
                             <li>AUC (area under the curve, or peak area)</li>
-                            <li>Frequency (Hz) of big peaks in current data file (with absolule amplitude >=0.66)</li>
-                            <li>Frequency (Hz) of medium peaks in current data file (with absolule amplitude >=0.33 and <0.66)</li>
-                            <li>Frequency (Hz) of small peaks in current data file (with absolule amplitude <0.33)</li>
+                            <li>Frequency (Hz) of big peaks in current data file (with % absolule amplitude >=0.66)</li>
+                            <li>Frequency (Hz) of medium peaks in current data file (with % absolule amplitude >=0.33 and <0.66)</li>
+                            <li>Frequency (Hz) of small peaks in current data file (with % absolule amplitude <0.33)</li>
                         </ul>
                     </p>
 
                     <p>
                         User can interactively move the peak borders (start and end points of the peak) by simply drag
-                        the corresponding point by right mouse button, or explicitly point to the region where it shoud be
-                        by pressing <b>CTRL+Right mouse button</b> for the peak start, and <b>ALT+Right mouse button</b> for the peak end point.
+                        the corresponding point by <u>right mouse button</u>. In other, currently more convinient way,
+                        user can explicitly point to the region where borders shoud be by pressing <b>CTRL+Right mouse button</b> for the peak start,
+                        and <b>ALT+Right mouse button</b> for the peak end point, BUT only for the last chosen peak.
                     </p>
 
                     <p>
-                        After every interaction with the graph the picure will be updated as well as all peak parameters will be automatically recalculated in real time.
+                        After every interaction with the graph the picure will be updated,
+                        as well as all peak parameters will be automatically recalculated in real time.
                     </p>
+
                 <li><h4>Save ouput</h4></li>
                     <p>
                         All files analysed are considered as a batch (one treatment, one biological repetition, etc), and
-                        clicking on the button <b>"Analyse and save file"</b> save currenly analysed file into table inside PeakInspector,
-                        and add it to previously analysed files from the same batch, if any. To save the all analysed peak from the batch as a table
-                        (for now the default output is Excel file) user have to click the <b>"Export analysed files to Excel"</b>.
+                        clicking on the button <b>"Analyse and save file"</b> will save currenly analysed file into table inside PeakInspector. This will
+                        add analysed data to previously analysed files, if any. To save the all analysed peak from the batch as a table
+                        (for now the default, and only, output is Excel file) user have to click the <b>"Export analysed files to Excel"</b>.
                     </p>
 
                     <p>
-                        In addition, along with saving every file with <b>"Analyse and save file"</b> button, the graphical output of data and analysed peaks
-                        (basically, what user will see on the graph) will be saved into the
+                        In the <b>Settings</b> tab there is an option to specify the desired peak features which user would like to see in Excel file.
+                        These options have to be chosen ones per all currently analysing files.
+                    </p>
+
+                    <p>
+                        In addition, along with saving every file with <b>"Analyse and save file"</b> button,
+                        the graphical output of data and analysed peaks (basically, what user will see on the graph) will be saved into the
                         automatically created "_Figures" folder in the folder where user will have the PeakInspector.py file. User can disable this option, or change the figures DPI.
                     </p>
             </ul>
@@ -171,7 +184,6 @@
         <p>
             <ul>
                 <li>Choosing desired output format (xlsx, scv, etc)</li>
-                <li>Choosing desired peak properties for output (only, e.g., peak maximum time and amplitude)</li>
                 <li>More smooth experience with the dragging peak border poins by right mouse button</li>
                 <li>Add other parameters of peaks to analyse</li>
             </ul>
