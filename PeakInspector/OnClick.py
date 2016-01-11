@@ -10,19 +10,7 @@ class OnClick:
     __metaclass__ = ABCMeta
 
     def __init__(self):
-        self.coordinates = []
-        self.area = []
-        self.amplitudes = []
-        self.amplitude_line_coordinates = []
-        self.left_peak_border = []
-        self.right_peak_border = []
-        self.pickable_artists_pts_AX2 = []
-        self.pickable_artists_pts_AX3 = []
-        self.pickable_artists_lns_AX3 = []
-        self.pickable_artists_fill_AX3 = []
-        self.pickable_artists_plb_AX3 = []
-        self.pickable_artists_prb_AX3 = []
-        self.pickable_artists_lnsP_AX3 = []
+        pass
 
     def on_click(self, event):
         modifier = QtGui.QApplication.keyboardModifiers()
@@ -37,50 +25,50 @@ class OnClick:
                 rigthBorderX = xIdx + peakDetectionWindow
 
                 # prevent situation if borders could be out of index
-                if leftBorderX >= -1 and rigthBorderX < len(self.dataAfterFilter):
-                    index_interval = self.dataAfterFilter[leftBorderX:rigthBorderX]
-                elif leftBorderX <= -1 and rigthBorderX < len(self.dataAfterFilter):
-                    index_interval = self.dataAfterFilter[0:rigthBorderX]
-                elif leftBorderX >= 0 and rigthBorderX > len(self.dataAfterFilter):
-                    index_interval = self.dataAfterFilter[leftBorderX:len(self.dataAfterFilter)]
+                if leftBorderX >= -1 and rigthBorderX < len(self.data_after_filter):
+                    index_interval = self.data_after_filter[leftBorderX:rigthBorderX]
+                elif leftBorderX <= -1 and rigthBorderX < len(self.data_after_filter):
+                    index_interval = self.data_after_filter[0:rigthBorderX]
+                elif leftBorderX >= 0 and rigthBorderX > len(self.data_after_filter):
+                    index_interval = self.data_after_filter[leftBorderX:len(self.data_after_filter)]
 
                 # find index and value of the peak within window frame
                 yVal, yIdx = max((yVal, yIdx) for (yIdx, yVal) in enumerate(index_interval))
 
                 # find index of the peak within full dataset
-                self.peakIdx = self.dataAfterFilter.index(yVal)
+                self.peak_index = self.data_after_filter.index(yVal)
 
                 # determine the amplitude region within which the peak borders would be automatically searched
                 # lowerBaselineRegion equal 0 (see dataPreprocessing function in the main class)
                 upperBaselineRegion = yVal*0.10
 
-                self.leftIntersectionPeakIdx = next((h for h in range(self.peakIdx, 1, -1) if
-                    (self.dataAfterFilter[h] >= self.dataAfterFilter[h-1]) &
-                    (self.dataAfterFilter[h] > self.dataAfterFilter[h+1]) &
-                    (0 <= self.dataAfterFilter[h] <= upperBaselineRegion)), 0)
+                self.left_intersection_index = next((h for h in range(self.peak_index, 1, -1) if
+                                                     (self.data_after_filter[h] >= self.data_after_filter[h-1]) &
+                                                     (self.data_after_filter[h] > self.data_after_filter[h+1]) &
+                                                     (0 <= self.data_after_filter[h] <= upperBaselineRegion)), 0)
 
-                self.rightIntersectionPeakIdx = next((k for k in range(self.peakIdx, len(self.dataAfterFilter)-1, 1) if
-                    (self.dataAfterFilter[k] >= self.dataAfterFilter[k-1]) &
-                    (self.dataAfterFilter[k] > self.dataAfterFilter[k+1]) &
-                    (0 <= self.dataAfterFilter[k] <= upperBaselineRegion)), len(self.dataAfterFilter)-1)
+                self.right_intersection_index = next((k for k in range(self.peak_index, len(self.data_after_filter) - 1, 1) if
+                                                      (self.data_after_filter[k] >= self.data_after_filter[k-1]) &
+                                                      (self.data_after_filter[k] > self.data_after_filter[k+1]) &
+                                                      (0 <= self.data_after_filter[k] <= upperBaselineRegion)), len(self.data_after_filter) - 1)
 
                 # save peak data coordinated for next analysis
-                self.coordinates.append((self.x[self.peakIdx], self.dataAfterFilter[self.peakIdx]))
-                self.left_peak_border.append((self.x[self.leftIntersectionPeakIdx], self.dataAfterFilter[self.leftIntersectionPeakIdx]))
-                self.right_peak_border.append((self.x[self.rightIntersectionPeakIdx], self.dataAfterFilter[self.rightIntersectionPeakIdx]))
+                self.coordinates.append((self.x[self.peak_index], self.data_after_filter[self.peak_index]))
+                self.left_peak_border.append((self.x[self.left_intersection_index], self.data_after_filter[self.left_intersection_index]))
+                self.right_peak_border.append((self.x[self.right_intersection_index], self.data_after_filter[self.right_intersection_index]))
 
                 # calculate the line between left and right border of the peak
-                interpolated_line = self.interpolation(self.left_peak_border[-1], self.right_peak_border[-1], self.leftIntersectionPeakIdx, self.rightIntersectionPeakIdx)
+                interpolated_line = self.interpolation(self.left_peak_border[-1], self.right_peak_border[-1], self.left_intersection_index, self.right_intersection_index)
 
                 # calculate the REAL peak with 0 baseline (substract the 'interpolated_line' from corresponding region in processed dataset)
                 peak_full_area = []
-                peak_full_area[:] = [(i - j) for i,j in zip(self.dataAfterFilter[self.leftIntersectionPeakIdx:self.rightIntersectionPeakIdx], interpolated_line)]
-                lns3_true_peak, = self.ax3.plot(self.x[self.leftIntersectionPeakIdx:self.rightIntersectionPeakIdx], peak_full_area, 'k--')
+                peak_full_area[:] = [(i - j) for i,j in zip(self.data_after_filter[self.left_intersection_index:self.right_intersection_index], interpolated_line)]
+                lns3_true_peak, = self.ax3.plot(self.x[self.left_intersection_index:self.right_intersection_index], peak_full_area, 'k--')
 
                 # find the actual amplitude of the peak
                 peak_amplitude = max(peak_full_area)
                 self.amplitudes.append(peak_amplitude)
-                self.amplitude_line_coordinates.append(([self.x[self.peakIdx], self.x[self.peakIdx]], [peak_amplitude, 0]))
+                self.amplitude_line_coordinates.append(([self.x[self.peak_index], self.x[self.peak_index]], [peak_amplitude, 0]))
                 self.area.append(peak_full_area)
 
                 # Visualize peak coordinates (and save artists)
@@ -89,9 +77,9 @@ class OnClick:
                 lns3, = self.ax3.plot(self.amplitude_line_coordinates[-1][0], self.amplitude_line_coordinates[-1][1], 'k') # line from max to baseline
 
                 # visualise the whole peak area which will be integrated
-                pts3fill = self.ax3.fill_between(np.array(self.x[self.leftIntersectionPeakIdx:self.rightIntersectionPeakIdx]),
+                pts3fill = self.ax3.fill_between(np.array(self.x[self.left_intersection_index:self.right_intersection_index]),
                                                  interpolated_line,
-                                                 np.array(self.dataAfterFilter[self.leftIntersectionPeakIdx:self.rightIntersectionPeakIdx]),
+                                                 np.array(self.data_after_filter[self.left_intersection_index:self.right_intersection_index]),
                                                  facecolor='green', interpolate=True, alpha=0.4)
 
                 # Visualise left and right peak border by dots (and save artists)
@@ -152,20 +140,20 @@ class OnClick:
             elif event.button == 3 and modifier == QtCore.Qt.ControlModifier: #
                 # detect the closest time (x) index near the event
                 xIdxLeft = (np.abs(self.x - event.xdata)).argmin()
-                self.leftIntersectionPeakIdx = xIdxLeft
-                self.left_peak_border[-1] = [self.x[self.leftIntersectionPeakIdx], self.dataAfterFilter[self.leftIntersectionPeakIdx]]
+                self.left_intersection_index = xIdxLeft
+                self.left_peak_border[-1] = [self.x[self.left_intersection_index], self.data_after_filter[self.left_intersection_index]]
 
                 # calculate the line between left and right border of the peak
-                interpolated_line = self.interpolation(self.left_peak_border[-1], self.right_peak_border[-1], self.leftIntersectionPeakIdx, self.rightIntersectionPeakIdx)
+                interpolated_line = self.interpolation(self.left_peak_border[-1], self.right_peak_border[-1], self.left_intersection_index, self.right_intersection_index)
 
                 # calculate the REAL peak with 0 baseline (substract the 'interpolated_line' from corresponding region in processed dataset)
                 peak_full_area = []
-                peak_full_area[:] = [(i - j) for i,j in zip(self.dataAfterFilter[self.leftIntersectionPeakIdx:self.rightIntersectionPeakIdx], interpolated_line)]
+                peak_full_area[:] = [(i - j) for i,j in zip(self.data_after_filter[self.left_intersection_index:self.right_intersection_index], interpolated_line)]
                 self.area[-1] = peak_full_area
 
                 self.pickable_artists_lnsP_AX3[-1].remove()
                 del self.pickable_artists_lnsP_AX3[-1]
-                lns3_true_peak, = self.ax3.plot(self.x[self.leftIntersectionPeakIdx:self.rightIntersectionPeakIdx], peak_full_area, 'k--')
+                lns3_true_peak, = self.ax3.plot(self.x[self.left_intersection_index:self.right_intersection_index], peak_full_area, 'k--')
                 self.pickable_artists_lnsP_AX3.append(lns3_true_peak)
 
                 # find the actual amplitude of the peak
@@ -187,9 +175,9 @@ class OnClick:
 
                 self.pickable_artists_fill_AX3[-1].remove()
                 del self.pickable_artists_fill_AX3[-1]
-                pts3fill = self.ax3.fill_between(np.array(self.x[self.leftIntersectionPeakIdx:self.rightIntersectionPeakIdx]),
+                pts3fill = self.ax3.fill_between(np.array(self.x[self.left_intersection_index:self.right_intersection_index]),
                                                  interpolated_line,
-                                                 np.array(self.dataAfterFilter[self.leftIntersectionPeakIdx:self.rightIntersectionPeakIdx]),
+                                                 np.array(self.data_after_filter[self.left_intersection_index:self.right_intersection_index]),
                                                  facecolor='green', interpolate=True, alpha=0.4)
                 self.pickable_artists_fill_AX3.append(pts3fill)
 
@@ -198,20 +186,20 @@ class OnClick:
             elif event.button == 3 and modifier == QtCore.Qt.AltModifier:  #
                 # detect the closest time (x) index near the event
                 x_idx_right = (np.abs(self.x - event.xdata)).argmin()
-                self.rightIntersectionPeakIdx = x_idx_right
-                self.right_peak_border[-1] = [self.x[self.rightIntersectionPeakIdx], self.dataAfterFilter[self.rightIntersectionPeakIdx]]
+                self.right_intersection_index = x_idx_right
+                self.right_peak_border[-1] = [self.x[self.right_intersection_index], self.data_after_filter[self.right_intersection_index]]
 
                 # calculate the line between left and right border of the peak
-                interpolated_line = self.interpolation(self.left_peak_border[-1], self.right_peak_border[-1], self.leftIntersectionPeakIdx, self.rightIntersectionPeakIdx)
+                interpolated_line = self.interpolation(self.left_peak_border[-1], self.right_peak_border[-1], self.left_intersection_index, self.right_intersection_index)
 
                 # calculate the REAL peak with 0 baseline (substract the 'interpolated_line' from corresponding region in processed dataset)
                 peak_full_area = []
-                peak_full_area[:] = [(i - j) for i,j in zip(self.dataAfterFilter[self.leftIntersectionPeakIdx:self.rightIntersectionPeakIdx], interpolated_line)]
+                peak_full_area[:] = [(i - j) for i,j in zip(self.data_after_filter[self.left_intersection_index:self.right_intersection_index], interpolated_line)]
                 self.area[-1] = peak_full_area
 
                 self.pickable_artists_lnsP_AX3[-1].remove()
                 del self.pickable_artists_lnsP_AX3[-1]
-                lns3_true_peak, = self.ax3.plot(self.x[self.leftIntersectionPeakIdx:self.rightIntersectionPeakIdx], peak_full_area, 'k--')
+                lns3_true_peak, = self.ax3.plot(self.x[self.left_intersection_index:self.right_intersection_index], peak_full_area, 'k--')
                 self.pickable_artists_lnsP_AX3.append(lns3_true_peak)
 
                 # find the actual amplitude of the peak
@@ -233,9 +221,9 @@ class OnClick:
 
                 self.pickable_artists_fill_AX3[-1].remove()
                 del self.pickable_artists_fill_AX3[-1]
-                pts3fill = self.ax3.fill_between(np.array(self.x[self.leftIntersectionPeakIdx:self.rightIntersectionPeakIdx]),
+                pts3fill = self.ax3.fill_between(np.array(self.x[self.left_intersection_index:self.right_intersection_index]),
                                                  interpolated_line,
-                                                 np.array(self.dataAfterFilter[self.leftIntersectionPeakIdx:self.rightIntersectionPeakIdx]),
+                                                 np.array(self.data_after_filter[self.left_intersection_index:self.right_intersection_index]),
                                                  facecolor='green', interpolate=True, alpha=0.4)
                 self.pickable_artists_fill_AX3.append(pts3fill)
 

@@ -920,7 +920,7 @@
              </property>
              <layout class="QFormLayout" name="formLayout">
               <item row="0" column="0">
-               <widget class="QRadioButton" name="radioButton_2">
+               <widget class="QRadioButton" name="rbtnXlsx">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                   <horstretch>0</horstretch>
@@ -936,7 +936,7 @@
                </widget>
               </item>
               <item row="0" column="1">
-               <widget class="QRadioButton" name="radioButton">
+               <widget class="QRadioButton" name="rbtCsv">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                   <horstretch>0</horstretch>
@@ -965,7 +965,17 @@
             </widget>
            </item>
            <item>
-            <widget class="QCheckBox" name="checkBox">
+            <widget class="QCheckBox" name="chbxFileName">
+             <property name="text">
+              <string>File name</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="chbxPeakTime">
              <property name="text">
               <string>Peak time</string>
              </property>
@@ -975,27 +985,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QCheckBox" name="checkBox_4">
-             <property name="text">
-              <string>Peak left brder</string>
-             </property>
-             <property name="checked">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QCheckBox" name="checkBox_7">
-             <property name="text">
-              <string>Peak right border</string>
-             </property>
-             <property name="checked">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QCheckBox" name="checkBox_9">
+            <widget class="QCheckBox" name="chbxAmplAbs">
              <property name="text">
               <string>Absolute amplitude</string>
              </property>
@@ -1005,9 +995,9 @@
             </widget>
            </item>
            <item>
-            <widget class="QCheckBox" name="checkBox_10">
+            <widget class="QCheckBox" name="chbxAmplAbsRel">
              <property name="text">
-              <string>Relative absolute amplitude (to max)</string>
+              <string>Absolute amplitude (%)</string>
              </property>
              <property name="checked">
               <bool>true</bool>
@@ -1015,7 +1005,17 @@
             </widget>
            </item>
            <item>
-            <widget class="QCheckBox" name="checkBox_5">
+            <widget class="QCheckBox" name="chbxAmplAbsMax">
+             <property name="text">
+              <string>Absolute amplitude MAX</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="chbxAmplNorm">
              <property name="text">
               <string>Normalised amplitude</string>
              </property>
@@ -1025,9 +1025,9 @@
             </widget>
            </item>
            <item>
-            <widget class="QCheckBox" name="checkBox_8">
+            <widget class="QCheckBox" name="chbxAmplNormRel">
              <property name="text">
-              <string>Relative normalised amplitude</string>
+              <string>Normalised amplitude (%)</string>
              </property>
              <property name="checked">
               <bool>true</bool>
@@ -1035,9 +1035,9 @@
             </widget>
            </item>
            <item>
-            <widget class="QCheckBox" name="checkBox_6">
+            <widget class="QCheckBox" name="chbxAmplNormMax">
              <property name="text">
-              <string>Amplitude maximum (one for dataset)</string>
+              <string>Normalised amplitude MAX</string>
              </property>
              <property name="checked">
               <bool>true</bool>
@@ -1045,7 +1045,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QCheckBox" name="checkBox_2">
+            <widget class="QCheckBox" name="chbxPeriod">
              <property name="text">
               <string>Period</string>
              </property>
@@ -1055,7 +1055,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QCheckBox" name="checkBox_3">
+            <widget class="QCheckBox" name="chbxFreq">
              <property name="text">
               <string>Frequency</string>
              </property>
@@ -1065,7 +1065,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QCheckBox" name="checkBox_11">
+            <widget class="QCheckBox" name="chbxHalfDecayTime">
              <property name="text">
               <string>Half-decay time</string>
              </property>
@@ -1075,9 +1075,9 @@
             </widget>
            </item>
            <item>
-            <widget class="QCheckBox" name="checkBox_12">
+            <widget class="QCheckBox" name="chbxHalfDecayAmpl">
              <property name="text">
-              <string>Time to peak</string>
+              <string>Half-decay amplitude</string>
              </property>
              <property name="checked">
               <bool>true</bool>
@@ -1085,9 +1085,9 @@
             </widget>
            </item>
            <item>
-            <widget class="QCheckBox" name="checkBox_14">
+            <widget class="QCheckBox" name="chbxLeftBorderTime">
              <property name="text">
-              <string>Full peak time</string>
+              <string>Peak left border time</string>
              </property>
              <property name="checked">
               <bool>true</bool>
@@ -1095,7 +1095,47 @@
             </widget>
            </item>
            <item>
-            <widget class="QCheckBox" name="checkBox_13">
+            <widget class="QCheckBox" name="chbxLeftBorder">
+             <property name="text">
+              <string>Peak left border amplitude</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="chbxRightBorderTime">
+             <property name="text">
+              <string>Peak right border time</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="chbxRightBorder">
+             <property name="text">
+              <string>Peak right border amplitude</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="chbxTimeToPeak">
+             <property name="text">
+              <string>Time to peak (ascending time)</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="chbxDecayTime">
              <property name="text">
               <string>Decay time</string>
              </property>
@@ -1105,7 +1145,17 @@
             </widget>
            </item>
            <item>
-            <widget class="QCheckBox" name="checkBox_15">
+            <widget class="QCheckBox" name="chbxFullPeakTime">
+             <property name="text">
+              <string>Full peak time</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="chbxAUC">
              <property name="text">
               <string> AUC (peak area)</string>
              </property>
@@ -1115,7 +1165,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QCheckBox" name="checkBox_16">
+            <widget class="QCheckBox" name="chbxSmallPeaks">
              <property name="text">
               <string>Frequency of peaks with small amplitude (&lt;=0.33 from the maximum amplitude)</string>
              </property>
@@ -1125,7 +1175,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QCheckBox" name="checkBox_17">
+            <widget class="QCheckBox" name="chbxMidPeaks">
              <property name="text">
               <string>Frequency of peaks with medium amplitude (&gt;0.33 &amp; &lt;=0.66 from the maximum amplitude)</string>
              </property>
@@ -1135,7 +1185,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QCheckBox" name="checkBox_18">
+            <widget class="QCheckBox" name="chbxBigPeaks">
              <property name="text">
               <string>Frequency of peaks with big amplitude (&gt;0.66 from the maximum amplitude)</string>
              </property>
