@@ -51,7 +51,13 @@ class MainWindow(QtGui.QMainWindow, OnClick, OnMotion):
         self.BtnSaveCurrent.clicked.connect(self.coordinates_analysis)
         self.BtnSaveFullDataset.clicked.connect(self.save_data)
         self.BoxMplPlotStyle.currentIndexChanged.connect(self.mpl_style_change)
+
         style.use(self.BoxMplPlotStyle.currentText())
+
+        self.BtnLoadFile.setStyleSheet("background-color: #7CF2BD")
+        self.BtnReplot.setStyleSheet("background-color: #FAF6F2")
+        self.BtnSaveCurrent.setStyleSheet("background-color: #FAF6F2")
+        self.BtnSaveFullDataset.setStyleSheet("background-color: #FAF6F2")
 
         # Initialise figure instance
         self.fig = plt.figure()
@@ -89,6 +95,7 @@ class MainWindow(QtGui.QMainWindow, OnClick, OnMotion):
                 \n 1) 1 or 2 columns; \n 2) check headers, footers and delimeter \n and try again.")
 
     def load_file(self, ):
+        self.BtnLoadFile.setStyleSheet("background-color: #FAF6F2")
         # Check if we already have some file loaded - then remove canvas
         if hasattr(self, 'cid_click'):
             self.rmmpl()
@@ -99,6 +106,8 @@ class MainWindow(QtGui.QMainWindow, OnClick, OnMotion):
         self.clear_data()
 
         name = QtGui.QFileDialog.getOpenFileName(self, 'Open File')
+        if not name:
+            return self.import_error()
 
         # get more readable file name for graph title
         try:
@@ -106,7 +115,7 @@ class MainWindow(QtGui.QMainWindow, OnClick, OnMotion):
             dot_index = self.find_character(name, '.')
             self.graph_name = name[slash_index[-1] + 1:dot_index[-1]]
         except:
-            self.graph_name = name
+            self.graph_name = name[-10:]
 
         skip_header_rows = self.BoxSkipHeader.value()
         skip_footer_rows = self.BoxSkipFooter.value()
@@ -140,16 +149,13 @@ class MainWindow(QtGui.QMainWindow, OnClick, OnMotion):
             self.x = np.arange(0, len(self.y), 1)
             return self.process_opened_file()
 
-        # finally:
-        #     return self.import_error()
-
     def import_error(self,):
         message = MessageBox()
-        message.about(self, 'Warning!', "Data were not loaded. \n Please, be sure that: \n "
-                                                "1. Data have 1 or 2 columns. \n"
-                                                "2. Data are longer than 100 points."
-                                                "3. Delimiter is correctly specified. \n"
-                                                "4. Rows in data contain only numeric values \n")
+        message.about(self, 'Warning!', "Data were not loaded. \n Please, be sure that:\n "
+                                                "1. Data have 1 or 2 columns.\n"
+                                                "2. Data are longer than 100 points.\n"
+                                                "3. Delimiter is correctly specified.\n"
+                                                "4. Rows in data contain only numeric values\n")
 
     def process_opened_file(self, ):
         self.x = tuple(self.x)
@@ -317,25 +323,24 @@ class MainWindow(QtGui.QMainWindow, OnClick, OnMotion):
             amplitude_normed_computation = df_sorted.at[i, 'Amplitude'] / F0
             normalised_amplitude.append(amplitude_normed_computation)
 
-        # normalised amplitude % and MAX
+        # normalised amplitude %
         relative_normalised_amplitude = []
         maxATB = max(normalised_amplitude)
         relative_normalised_amplitude[:] = [(i / maxATB) for i in normalised_amplitude]
 
-        # normalised_amplitude_max = []
-        # maximum deltaF/F0 amplitude
+        # normalised amplitude MAX
         normalised_amplitude_max = list(range(0, len(df_sorted['Peak Time']) - 1))
-        normalised_amplitude_max[:] = [np.nan for i in normalised_amplitude_max]
+        normalised_amplitude_max[:] = [np.nan for _ in normalised_amplitude_max]
         normalised_amplitude_max.insert(0, maxATB)
 
         # add file name as first column
         file_name = list(range(0, len(df_sorted['Peak Time']) - 1))
-        file_name[:] = [np.nan for i in file_name]
+        file_name[:] = [np.nan for _ in file_name]
         file_name.insert(0, self.graph_name)
 
         # add maximum amplitude
         absolute_amplitude_max = list(range(0, len(df_sorted['Peak Time']) - 1))
-        absolute_amplitude_max[:] = [np.nan for i in absolute_amplitude_max]
+        absolute_amplitude_max[:] = [np.nan for _ in absolute_amplitude_max]
         absolute_amplitude_max.insert(0, max(df_sorted['Amplitude']))
 
         # peak sorting
@@ -450,6 +455,8 @@ class MainWindow(QtGui.QMainWindow, OnClick, OnMotion):
                 self.load_file()
             else:
                 self.rmmpl()
+                self.BtnSaveFullDataset.setStyleSheet("background-color: #7CF2BD")
+                self.BtnLoadFile.setStyleSheet("background-color: #7CF2BD")
 
         except:
             message = MessageBox()
@@ -468,6 +475,8 @@ class MainWindow(QtGui.QMainWindow, OnClick, OnMotion):
             message = MessageBox()
             message.about(self, 'Data saved', "Data were saved!")
             self.multiple_data_sets = pd.DataFrame()
+            self.BtnSaveFullDataset.setStyleSheet("background-color: #FAF6F2")
+            self.BtnLoadFile.setStyleSheet("background-color: #7CF2BD")
         except:
             message = MessageBox()
             message.about(self, 'Warning!', "Data were not exported to Excel! \n Please try again.")
