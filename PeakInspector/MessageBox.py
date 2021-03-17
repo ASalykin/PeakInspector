@@ -1,8 +1,7 @@
-from PyQt4 import QtGui
 
-
-class MessageBox(QtGui.QMessageBox):
+from PyQt5.QtWidgets import QMessageBox
+class MessageBox(QMessageBox):
 
     def __init__(self, parent=None):
-        QtGui.QMessageBox.__init__(self, parent)
+        QMessageBox.__init__(self, parent)
         self.setWindowTitle('Message box')

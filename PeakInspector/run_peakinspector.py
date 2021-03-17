@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 import sys
-from PyQt4 import QtGui
+from PyQt5.QtWidgets import QApplication
 from MainWindow import MainWindow
-from OnClick import OnClick
 
 
 def run_peakinspector():
-    app = QtGui.QApplication(sys.argv)
+    app = QApplication(sys.argv)
     gui = MainWindow()
     gui.showMaximized()
     sys.exit(app.exec_())
