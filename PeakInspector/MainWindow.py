@@ -1,14 +1,14 @@
 import os
-from PyQt4 import QtGui, uic
+from PyQt5 import QtGui, uic
 import numpy as np
 import pandas as pd
 import scipy.signal as sig
 from scipy import interpolate
 import matplotlib.pyplot as plt
-from matplotlib.backends.backend_qt4agg import (
+from matplotlib.backends.backend_qt5agg import (
     FigureCanvasQTAgg as FigureCanvas,
     NavigationToolbar2QT as NavigationToolbar)
-
+from PyQt5.QtWidgets import QMainWindow, QFileDialog, QMessageBox
 from matplotlib import style
 # Possible styles:
 # ['ggplot', 'dark_background', 'bmh', 'grayscale', 'fivethirtyeight']
@@ -18,7 +18,7 @@ from OnClick import OnClick
 from OnMotion import OnMotion
 
 
-class MainWindow(QtGui.QMainWindow, OnClick, OnMotion):
+class MainWindow(QMainWindow, OnClick, OnMotion):
     def __init__(self):
         super(MainWindow, self).__init__()
         uic.loadUi("PeakInspector_layout.ui", self)
@@ -105,7 +105,7 @@ class MainWindow(QtGui.QMainWindow, OnClick, OnMotion):
         self.y = np.empty([])
         self.clear_data()
 
-        name = QtGui.QFileDialog.getOpenFileName(self, 'Open File')
+        name = QFileDialog.getOpenFileName(self, 'Open File')[0]
         if not name:
             return self.import_error()
 
@@ -450,8 +450,8 @@ class MainWindow(QtGui.QMainWindow, OnClick, OnMotion):
             del final_dataframe
 
             dialog = MessageBox.question(self, '', "Current dataset was analysed \n and added to previous ones (if exist). \n Would you like to load next file? ",
-                                         QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
-            if dialog == QtGui.QMessageBox.Yes:
+                                         QMessageBox.Yes, QMessageBox.No)
+            if dialog == QMessageBox.Yes:
                 self.load_file()
             else:
                 self.rmmpl()
@@ -464,7 +464,7 @@ class MainWindow(QtGui.QMainWindow, OnClick, OnMotion):
 
     def save_data(self, ):
         try:
-            file_name = QtGui.QFileDialog.getSaveFileName(self, 'Save file')
+            file_name = QFileDialog.getSaveFileName(self, 'Save file')[0]
             writer = pd.ExcelWriter('{}.xlsx'.format(file_name))
             self.multiple_data_sets.to_excel(writer, index=True, sheet_name='Results')
             writer.sheets['Results'].set_zoom(80)
@@ -477,9 +477,10 @@ class MainWindow(QtGui.QMainWindow, OnClick, OnMotion):
             self.multiple_data_sets = pd.DataFrame()
             self.BtnSaveFullDataset.setStyleSheet("background-color: #FAF6F2")
             self.BtnLoadFile.setStyleSheet("background-color: #7CF2BD")
-        except:
+        except Exception as e:
             message = MessageBox()
             message.about(self, 'Warning!', "Data were not exported to Excel! \n Please try again.")
+            print(e)
 
     def mpl_style_change(self, ):
         style.use(self.BoxMplPlotStyle.currentText())
@@ -503,13 +504,13 @@ class MainWindow(QtGui.QMainWindow, OnClick, OnMotion):
         """Exchange default event to add a dialog"""
         if self.multiple_data_sets.empty:
             reply = MessageBox.question(self, 'Warning!',
-                                        "Are you sure to quit?", QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
+                                        "Are you sure to quit?", QMessageBox.Yes, QMessageBox.No)
         else:
             reply = MessageBox.question(self, 'Warning!',
                                         "You have unsaved analysed data! \n Are you sure to quit?",
-                                        QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
+                                        QMessageBox.Yes, QMessageBox.No)
 
-        if reply == QtGui.QMessageBox.Yes:
+        if reply == QMessageBox.Yes:
             event.accept()
         else:
             event.ignore()

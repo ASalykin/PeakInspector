@@ -1,14 +1,15 @@
 from abc import ABCMeta, abstractmethod
 import numpy as np
-from PyQt4 import QtGui, QtCore
+from PyQt5 import QtGui, QtCore
 from OnMotion import OnMotion
+from PyQt5.QtWidgets import QApplication
 
 
 class OnClick:
     __metaclass__ = ABCMeta
 
     def on_click(self, event):
-        modifier = QtGui.QApplication.keyboardModifiers()
+        modifier = QApplication.keyboardModifiers()
         if event.inaxes == self.ax3: # i.e. axes with detrended and filtered data
             if event.button == 1 and modifier == QtCore.Qt.NoModifier:
                 # detect the closest time (x) index near the event

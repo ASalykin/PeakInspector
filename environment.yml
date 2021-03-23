@@ -1,0 +1,13 @@
+name: peakinspector
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - matplotlib=3.3
+  - matplotlib-base=3.3
+  - numpy=1.19
+  - python=3.6
+  - qt=5.9
+  - qtpy=1.9
+  - scipy=1.5
+

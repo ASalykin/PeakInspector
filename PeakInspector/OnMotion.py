@@ -1,5 +1,6 @@
 from abc import ABCMeta, abstractmethod
-from PyQt4 import QtGui, QtCore
+from PyQt5 import QtGui, QtCore
+from PyQt5.QtWidgets import QApplication
 import numpy as np
 
 
@@ -7,7 +8,7 @@ class OnMotion:
     __metaclass__ = ABCMeta
 
     def on_motion(self, event):
-        modifier = QtGui.QApplication.keyboardModifiers()
+        modifier = QApplication.keyboardModifiers()
         if event.inaxes == self.ax3 and event.button == 3 and modifier == QtCore.Qt.NoModifier:
             try: # to determine whether user pointed on the left peak border
                 if len(self.left_border) > 0:
